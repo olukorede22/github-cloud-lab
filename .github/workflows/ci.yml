@@ -20,7 +20,7 @@ jobs:
         run: docker image ls github-cloud-lab
 
       - name: Scan image with Trivy
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action@v0.20.0
         with:
           image-ref: github-cloud-lab:${{ github.sha }}
           format: table
