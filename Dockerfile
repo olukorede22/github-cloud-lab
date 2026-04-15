@@ -3,9 +3,9 @@ FROM python:3.11-slim
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src ./src
-COPY hello.py .
+COPY src/ ./src/
+COPY tests/ ./tests/
 
-CMD ["python", "hello.py"]
+CMD ["python", "-m", "pytest", "tests/", "-v"]
