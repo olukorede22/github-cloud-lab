@@ -20,7 +20,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install flake8
-      - run: flake8 src/ --max-line-length=100
+      - run: flake8 src/ webapp/ --max-line-length=100
 
   test:
     name: Test
@@ -32,14 +32,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install -r requirements.txt
-      - run: python -m pytest tests/ -v --tb=short --junit-xml=test-results.xml
-      - name: Upload test results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: test-results
-          path: test-results.xml
-          retention-days: 7
+      - run: python -m pytest tests/ -v --tb=short
 
   build-and-push:
     name: Build and Push Image
@@ -78,7 +71,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Scan image for vulnerabilities with Trivy
-        uses: aquasecurity/trivy-action@v0.20.0
+        uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           format: table
